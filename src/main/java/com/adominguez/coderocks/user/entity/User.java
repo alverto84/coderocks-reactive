@@ -1,4 +1,4 @@
-package com.adominguez.coderocks.entity;
+package com.adominguez.coderocks.user.entity;
 
 import com.adominguez.coderocks.model.Role;
 import lombok.Data;

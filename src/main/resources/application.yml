@@ -2,3 +2,7 @@ spring:
   data:
     mongodb:
       uri: 'mongodb://localhost:27017/coderocks'
+
+springdoc:
+  api-docs:
+    path: '/api-docs'

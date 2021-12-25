@@ -17,37 +17,45 @@ import reactor.core.publisher.Mono;
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private ReactiveAuthenticationManager reactiveAuthenticationManager;
+  @Autowired
+  private ReactiveAuthenticationManager reactiveAuthenticationManager;
 
-    @Autowired
-    private ServerSecurityContextRepository serverSecurityContextRepository;
+  @Autowired
+  private ServerSecurityContextRepository serverSecurityContextRepository;
 
-    @Bean
-    SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
-        String[] patterns = new String[] {"/auth/**"};
-        return http.cors().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint((swe, e) -> Mono.fromRunnable(() -> {
-                    swe.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-                })).accessDeniedHandler((swe, e) -> Mono.fromRunnable(() -> {
-                    swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
-                })).and()
-                .csrf().disable()
-                .authenticationManager(reactiveAuthenticationManager)
-                .securityContextRepository(serverSecurityContextRepository)
-                .authorizeExchange()
-                .pathMatchers(patterns).permitAll()
-                .pathMatchers(HttpMethod.OPTIONS).permitAll()
-                .anyExchange().authenticated()
-                .and()
-                .build();
-    }
+  @Bean
+  SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
+    String[] patterns = new String[]{
+        "/auth/**",
+        "/api-docs",
+        "/configuration/ui",
+        "/swagger-resources/**",
+        "/configuration/security",
+        "/swagger-ui.html",
+        "/webjars/**"};
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    return http.cors().disable()
+        .exceptionHandling()
+        .authenticationEntryPoint((swe, e) -> Mono.fromRunnable(() -> {
+          swe.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+        })).accessDeniedHandler((swe, e) -> Mono.fromRunnable(() -> {
+          swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+        })).and()
+        .csrf().disable()
+        .authenticationManager(reactiveAuthenticationManager)
+        .securityContextRepository(serverSecurityContextRepository)
+        .authorizeExchange()
+        .pathMatchers(patterns).permitAll()
+        .pathMatchers(HttpMethod.OPTIONS).permitAll()
+        .anyExchange().authenticated()
+        .and()
+        .build();
+  }
+
+  @Bean
+  public BCryptPasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
 
 }

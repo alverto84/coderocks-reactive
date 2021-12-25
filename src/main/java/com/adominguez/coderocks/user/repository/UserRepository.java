@@ -1,6 +1,6 @@
-package com.adominguez.coderocks.repository;
+package com.adominguez.coderocks.user.repository;
 
-import com.adominguez.coderocks.entity.User;
+import com.adominguez.coderocks.user.entity.User;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Mono;
 
