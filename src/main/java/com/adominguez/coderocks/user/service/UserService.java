@@ -2,7 +2,7 @@ package com.adominguez.coderocks.user.service;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
-import com.adominguez.coderocks.model.UserEvent;
+import com.adominguez.coderocks.dto.UserEvent;
 import com.adominguez.coderocks.user.entity.User;
 import com.adominguez.coderocks.user.repository.UserRepository;
 import java.time.Duration;
@@ -51,7 +51,7 @@ public class UserService {
     return userRepository.save(user);
   }
 
-  public Mono<ServerResponse> streamEvents(ServerRequest serverRequest) {
+  public Mono<ServerResponse> streamEvents() {
     return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM).body(Flux.interval(Duration.ofSeconds(1))
         .map(val -> new UserEvent("" + val, "Devglan User Event")), UserEvent.class);
   }

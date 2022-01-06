@@ -1,4 +1,4 @@
-package com.adominguez.coderocks.model;
+package com.adominguez.coderocks.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

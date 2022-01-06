@@ -1,4 +1,4 @@
-package com.adominguez.coderocks.config;
+package com.adominguez.coderocks;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.server.RequestPredicates.DELETE;
@@ -7,7 +7,8 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import static org.springframework.web.reactive.function.server.RequestPredicates.PUT;
 import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
 
-import com.adominguez.coderocks.handler.AuthHandler;
+import com.adominguez.coderocks.auth.handler.AuthHandler;
+import com.adominguez.coderocks.user.Constans;
 import com.adominguez.coderocks.user.handler.UserHandler;
 import com.adominguez.coderocks.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,11 @@ public class RoutesConfig {
   public RouterFunction userRoute() {
     UserHandler.builder().userService(userService).build();
     return RouterFunctions
-        .route(POST("/users").and(accept(APPLICATION_JSON)), userService::createUser)
-        .andRoute(GET("/users").and(accept(APPLICATION_JSON)), userService::listUser)
-        .andRoute(GET("/users/{userId}").and(accept(APPLICATION_JSON)), userService::getUserById)
-        .andRoute(PUT("/users").and(accept(APPLICATION_JSON)), userService::createUser)
-        .andRoute(DELETE("/users/{userId}").and(accept(APPLICATION_JSON)), userService::deleteUser);
+        .route(POST(Constans.USERS).and(accept(APPLICATION_JSON)), userService::createUser)
+        .andRoute(GET(Constans.USERS).and(accept(APPLICATION_JSON)), userService::listUser)
+        .andRoute(GET(Constans.USERS + "{userId}").and(accept(APPLICATION_JSON)), userService::getUserById)
+        .andRoute(PUT(Constans.USERS).and(accept(APPLICATION_JSON)), userService::createUser)
+        .andRoute(DELETE(Constans.USERS + "/{userId}").and(accept(APPLICATION_JSON)), userService::deleteUser);
   }
 
   @Bean

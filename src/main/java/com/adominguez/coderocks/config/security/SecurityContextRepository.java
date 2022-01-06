@@ -39,7 +39,7 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
         }
         if (authToken != null) {
             Authentication auth = new UsernamePasswordAuthenticationToken(authToken, authToken);
-            return this.reactiveAuthenticationManager.authenticate(auth).map((authentication) -> new SecurityContextImpl(authentication));
+            return this.reactiveAuthenticationManager.authenticate(auth).map(SecurityContextImpl::new);
         } else {
             return Mono.empty();
         }

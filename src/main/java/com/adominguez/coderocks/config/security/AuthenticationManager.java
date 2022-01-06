@@ -1,6 +1,6 @@
 package com.adominguez.coderocks.config.security;
 
-import com.adominguez.coderocks.handler.TokenProvider;
+import com.adominguez.coderocks.auth.handler.TokenProvider;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
@@ -34,7 +34,7 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
         if (username != null && ! tokenProvider.isTokenExpired(authToken)) {
             Claims claims = tokenProvider.getAllClaimsFromToken(authToken);
             List<String> roles = claims.get(AUTHORITIES_KEY, List.class);
-            List<SimpleGrantedAuthority> authorities = roles.stream().map(role -> new SimpleGrantedAuthority(role)).collect(Collectors.toList());
+            List<SimpleGrantedAuthority> authorities = roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(username, username, authorities);
             SecurityContextHolder.getContext().setAuthentication(new AuthenticatedUser(username, authorities));
             return Mono.just(auth);

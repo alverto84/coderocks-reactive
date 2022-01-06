@@ -1,7 +1,7 @@
-package com.adominguez.coderocks.handler;
+package com.adominguez.coderocks.auth.handler;
 
 import com.adominguez.coderocks.user.entity.User;
-import com.adominguez.coderocks.model.Role;
+import com.adominguez.coderocks.dto.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
